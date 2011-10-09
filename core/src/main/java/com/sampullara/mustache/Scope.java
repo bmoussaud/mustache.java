@@ -1,5 +1,7 @@
 package com.sampullara.mustache;
 
+import org.codehaus.jackson.JsonNode;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -12,8 +14,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.Future;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.logging.Logger;
-
-import org.codehaus.jackson.JsonNode;
 
 /**
  * The scope of the executing Mustache can include an object and a map of strings.  Each scope can also have a
@@ -36,21 +36,21 @@ public class Scope extends HashMap<Object, Object> {
   private Scope parentScope;
   private static Logger logger = Logger.getLogger(Mustache.class.getName());
 
-  private static ObjectHandler defaultHandleObject;
+  private static ObjectHandler defaultObjectHandler;
 
   static {
     try {
       Class.forName("java.lang.invoke.MethodHandle");
-      defaultHandleObject = (ObjectHandler) Class.forName(
+      defaultObjectHandler = (ObjectHandler) Class.forName(
               "com.sampullara.mustache.ObjectHandler7").newInstance();
       logger.info("MethodHandle object handler enabled");
     } catch (Exception e) {
-      defaultHandleObject = new ObjectHandler6();
+      defaultObjectHandler = new ObjectHandler6();
       logger.info("Reflection object handler enabled");
     }
   }
 
-  private ObjectHandler handleObject = defaultHandleObject;
+  private ObjectHandler objectHandler = defaultObjectHandler;
 
   public Scope() {
   }
@@ -72,8 +72,12 @@ public class Scope extends HashMap<Object, Object> {
     this.parent = parent;
   }
 
-  public void setHandleObject(ObjectHandler handleObject) {
-    this.handleObject = handleObject;
+  public static void setDefaultObjectHandler(ObjectHandler defaultObjectHandler) {
+    Scope.defaultObjectHandler = defaultObjectHandler;
+  }
+
+  public void setObjectHandler(ObjectHandler objectHandler) {
+    this.objectHandler = objectHandler;
   }
 
   public Scope getParentScope() {
@@ -188,7 +192,7 @@ public class Scope extends HashMap<Object, Object> {
         } else if (parent instanceof JsonNode) {
           v = handleJsonNode(name);
         } else {
-          v = handleObject.handleObject(parent, scope, name);
+          v = objectHandler.handleObject(parent, scope, name);
         }
       }
     }

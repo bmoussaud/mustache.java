@@ -11,7 +11,7 @@
   <packaging>jar</packaging>
 
   <name>compiler</name>
-  <description>Implementation of mustache.js for Java</description>
+  <description>Implementation of com.sampullara.mustache.js for Java</description>
   <url>http://github.com/spullara/mustache.java</url>
 
   <licenses>

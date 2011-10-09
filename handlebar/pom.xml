@@ -64,7 +64,7 @@
           </descriptorRefs>
           <archive>
             <manifest>
-              <mainClass>com.sampullara.mustache.Handlebar</mainClass>
+              <mainClass>com.sampullara.com.sampullara.mustache.Handlebar</mainClass>
             </manifest>
           </archive>
         </configuration>

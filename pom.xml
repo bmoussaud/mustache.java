@@ -12,11 +12,12 @@
     <module>builder</module>
     <module>handlebar</module>
     <module>network</module>
-<!--    <module>java7-support</module>-->
+    <module>asm</module>
+    <!--    <module>java7-support</module>-->
   </modules>
   <packaging>pom</packaging>
 
-  <name>mustache.java</name>
+  <name>com.sampullara.mustache.java</name>
   <url>http://github.com/spullar/mustache.java</url>
 
   <developers>
